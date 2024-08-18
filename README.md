@@ -1,3 +1,6 @@
-# My Own Library of Math/Physics Problems
+# JupMath
+
+
+My Own Library of Math/Physics Problems
 
 
