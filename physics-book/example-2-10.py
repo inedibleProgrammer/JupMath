@@ -1,44 +1,63 @@
 # Example 2.10 - Not a Bad Throw for a Rookie!
 
+# A stone thrown from the top of a building is given an initial veloc-
+# ity of 20.0 m/s straight upward. The stone is launched 50.0 m above
+# the ground, and the stone just misses the edge of the roof on its way
+# down as shown in Figure 2.14.
+
+
 import numpy as np
 from matplotlib import pyplot as plt
 
-vi = 20
-hi = 50
-g = -9.81
 
-# t is an array of 1000 equally spaced time values between 0 and 5
-t = np.linspace(0, 5, 1000)
+def first_attempt():
+    vi = 20
+    hi = 50
+    g = -9.81
 
-# t*0 returns an array of size t with all 0s
-acceleration = t*0 + g
-# print(acceleration)
-# velocity is the integral of acceleration
-velocity = np.cumsum(acceleration) * (t[1] - t[0]) + vi
-# position is the integral of velocity
-position = np.cumsum(velocity) * (t[1] - t[0]) + hi
+    # t is an array of 1000 equally spaced time values between 0 and 5
+    t = np.linspace(0, 5, 1000)
 
-# B. Find the maximum height of the stone
-position_max = np.max(position)
+    # t*0 returns an array of size t with all 0s
+    acceleration = t*0 + g
+    # print(acceleration)
+    # velocity is the integral of acceleration
+    velocity = np.cumsum(acceleration) * (t[1] - t[0]) + vi
+    # position is the integral of velocity
+    position = np.cumsum(velocity) * (t[1] - t[0]) + hi
 
-# A. Calculate the time at which the stone reaches its maximum height
-print(t[position == position_max])
+    # B. Find the maximum height of the stone
+    position_max = np.max(position)
 
-# C. Determine the velocity of the stone when it returns to the height from which it was thrown
+    # A. Calculate the time at which the stone reaches its maximum height
+    print(t[position == position_max])
 
-print(velocity[(position < hi + 0.05) * (position > hi - 0.05)])
-# print(position)
+    # C. Determine the velocity of the stone when it returns to the height from which it was thrown
 
-# D. Find the velocity and position of the stone at t = 5.00s
-print(position[t == 5])
-print(velocity[t == 5])
+    print(velocity[(position < hi + 0.05) * (position > hi - 0.05)])
+    # print(position)
 
-
-# Plots
-
-plt.plot(t, acceleration)
-plt.plot(t, velocity)
-plt.plot(t, position)
-plt.show()
+    # D. Find the velocity and position of the stone at t = 5.00s
+    print(position[t == 5])
+    print(velocity[t == 5])
 
 
+    # Plots
+
+    plt.plot(t, acceleration)
+    plt.plot(t, velocity)
+    plt.plot(t, position)
+    plt.show()
+
+
+def second_attempt():
+    # What force (impulse/momentum) generates a 10 m/s initial velocity?
+    
+
+
+
+
+
+
+
+# first_attempt()
