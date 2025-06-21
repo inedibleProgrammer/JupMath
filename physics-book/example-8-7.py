@@ -47,6 +47,7 @@ def first_solution():
     vyf = vel_equation(tf)
     vmag = vyf/math.sin(t2r)
 
+    # 3.2333333333333347 25.4611468712625 [0.78648376] [2.54296415]
     print(a, Fn, tf, vmag)
 
 first_solution()
