@@ -1,6 +1,8 @@
 import math
+import numpy as np
 from scipy.optimize import fsolve
 from scipy.integrate import quad
+from scipy.interpolate import CubicSpline
 
 m = 3
 t1 = 30
@@ -94,7 +96,72 @@ def second_solution():
     rxf = rx_func(tf)
     ryf = ry_func(tf)
 
+    # 3.2333333333333347 25.4611468712625 0.7864837576396143 2.202271554554524 -1.27148207485071 2.54296414970142 0.8660254037844387 1.6653345369377348e-16
     print(a, Fn, tf, vxf, vyf, vf, rxf, ryf)
 
+def third_solution():
+    def force_equations(v):
+        a, Fn = v
+        eq1 = m*a*math.cos(t2r) - Ff*math.cos(t5r) - Fn*math.cos(t4r)
+        eq2 = m*a*math.sin(t2r) - Ff*math.sin(t5r) - m*g*math.sin(t6r) - Fn*math.sin(t4r)
+        return [eq1, eq2]
+
+    a, Fn = fsolve(force_equations, (6, 20))
+
+    ax = a * math.cos(t2r)
+    ay = a * math.sin(t2r)
+
+    # vxf - vxi = integral(ax) dt
+    def vx_func(t):
+        def ax_func(t):
+            return ax
+        vx, error = quad(ax_func, 0, t)
+        return vx
+
+    def vy_func(t):
+        def ay_func(t):
+            return ay
+        vy, error = quad(ay_func, 0, t)
+        return vy
+
+    def rx_func(t):
+        rx, error = quad(vx_func, 0, t)
+        return rx + xi
+
+    def ry_func(t):
+        ry, error = quad(vy_func, 0, t)
+        return ry + yi
+
+    tf = fsolve(ry_func, 2)[0]
+
+    vxf = vx_func(tf)
+    vyf = vy_func(tf)
+    vf = (vxf**2 + vyf**2)**0.5
+
+    rxf = rx_func(tf)
+    ryf = ry_func(tf)
+
+    def rx_func(t):
+        rx, error = quad(vx_func, 0, t)
+        return rx + xi
+
+    t_vals = np.linspace(0, tf, 50)
+    x_vals = [rx_func(ti) for ti in t_vals]
+    y_vals = [ry_func(ti) for ti in t_vals]
+
+    y_func = CubicSpline(t_vals, y_vals, extrapolate=True)
+
+    def work_gravity(y):
+        return m*g
+
+    Wfg, error = quad(work_gravity, yi, yf)
+    pe = m*g*yi
+
+    print(t_vals)
+    # print(x_vals)
+    print(y_vals)
+    print(Wfg, pe)
+
 # first_solution()
-second_solution()
+# second_solution()
+third_solution()
