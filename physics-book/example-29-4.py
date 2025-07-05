@@ -24,6 +24,7 @@ def uniform_magnetic_field():
 # I think I learned that you should always use 3d vectors, because
 # the cross product of 2-d vectors is a scalar
 def first_attempt():
+    # I am using made up numbers. The book answers this question purely algebraically
     # Parameters
     B_mag = 2.0 # Teslas
     I = 3 # Amps
@@ -97,6 +98,7 @@ def first_attempt():
     ds1_pad_reshape = ds1_pad.reshape(-1, 1)
     F1_cross = np.cross(T1_pad, B1)
 
+    # F1 and F1_2 demonstrate that dr x B = T x B * ds
     F1 = I * np.cumsum(np.cross(T1_pad, B1) * ds1_pad_reshape)
     F1_2 = I * np.cumsum(np.cross(dr1_pad, B1))
     F1_expected = 2 * I * R * B_mag
