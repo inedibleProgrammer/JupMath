@@ -5,7 +5,7 @@ t = sp.symbols('t', real=True)
 s = sp.symbols('s', complex=True)
 R, C = sp.symbols('R C', positive=True)
 Vs = sp.Function('Vs')(t)
-# Vs_t = sp.exp(-t)
+ # Vs_t = sp.exp(-t)
 u = sp.Heaviside(t)
 Vc = sp.Function('Vc')(t)
 
