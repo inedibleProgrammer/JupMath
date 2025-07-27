@@ -157,6 +157,8 @@ def third_solution():
     Wfg, error = quad(work_gravity, yi, yf)
     pe = m*g*yi
 
+    def work_friction(
+
     print(t_vals)
     # print(x_vals)
     print(y_vals)
