@@ -33,4 +33,4 @@ solution = sp.dsolve(eq, Vc, ics={Vc.subs(t, 0): 0})
 # Display result
 # print("Step response Vc(t) =")
 # sp.pprint(solution.rhs)
-# print(solution)
+print(solution)

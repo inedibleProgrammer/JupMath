@@ -24,10 +24,16 @@ def using_phasors():
     print(i1_mag_t, i1_phase_t)
 
 def using_convolution():
-    
+    pass
 
-# using_phasors()
-using_convolution()
+def using_laplace():
+    import sympy as sp
+
+using_phasors()
+# using_convolution()
+
+# using_laplace()
+
 
 
 
