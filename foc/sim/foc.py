@@ -4,12 +4,12 @@ import math
 class PidController():
 
     def __init__(self):
-        self.pgain = 0
-        self.igain = 0
-        self.imax = 0
-        self.imin = 0
-        self.output_max = 0
-        self.output_min = 0
+        self.pgain = 1
+        self.igain = 1
+        self.imax = 100
+        self.imin = -100
+        self.output_max = 10
+        self.output_min = -10
         self.error = 0
         self.setpoint = 0
         self.iterm = 0
@@ -26,26 +26,15 @@ class PidController():
         elif(self.iterm <= self.imin):
             self.iterm = self.imin
 
+
+
 class Motor():
 
-    class Quantity:
-        IA = 0
-        IB = 1
-        IC = 2
-        ANGLE = 3
-
-        def __init__(self):
-            pass
-
-    def __init__(self, sensor):
+    def __init__(self):
         self.ia = 0
         self.ib = 0
         self.ic = 0
-        self.angle_rad = 0
-        self.sensor = sensor
-
-    def update(self):
-        self.ia = sensor(Quantity.IA)
+        self.current_grabber = None
 
 class Foc():
 
@@ -55,6 +44,8 @@ class Foc():
         self.idreg = idreg
         self.current_sensor = None
 
+    def update(self):
+        pass
 
 
 def clarke(ia, ib):
@@ -78,9 +69,6 @@ def inv_park(idirect, iquad, sinval, cosval):
     return ialpha, ibeta
 
 def foc(motor):
-    ia = motor.ia
-    ib = motor.ib
-    ic = motor.ic
     angle_rad = motor.angle_rad
 
     vq = motor.iqreg.update()
@@ -99,11 +87,8 @@ class TestFoc(unittest.TestCase):
     def test_nothing(self):
         self.assertTrue(True)
 
-    def mock_sensor(quantity):
-        if(quantity == Motor.Quantity.IA):
-            pass
-        else:
-            pass
+    def fake_current_grabber(self):
+        pass
 
         # ideally we deliver more current to iq and 0 to id
     def test_maths(self):
@@ -121,8 +106,14 @@ class TestFoc(unittest.TestCase):
         print("\n")
         print(idirect, iquad)
 
+    def test_motor(self):
+        motor = Motor()
+        motor.current_grabber = self.fake_current_grabber
+        motor.current_grabber()
+
     def test_foc(self):
         motor = Motor()
+        motor.current_grabber = self.fake_current_grabber
         iqreg = PidController()
         idreg = PidController()
         foc = Foc(motor, iqreg, idreg)
